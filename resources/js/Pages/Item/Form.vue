@@ -79,11 +79,16 @@ const props = defineProps({
     }
 });
 
+// Get current date in BST (Bangladesh Standard Time, UTC+6)
+const dateInBST = new Date().toLocaleString("en-US", {
+    timeZone: "Asia/Dhaka",
+});
+
 // Form setup
 const form = useForm({
     name: props.item.name,
     amount: props.item.amount,
-    date: props.item.date ? formatDateForInput(props.item.date) : new Date().toISOString().slice(0, 16),
+    date: props.item.date ? formatDateForInput(props.item.date) : new Date(dateInBST).toISOString().slice(0, 16),
     type: props.item.type || ''
 });
 

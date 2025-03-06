@@ -16,8 +16,8 @@
                             </svg>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-500">Total Deposits</p>
-                            <p class="text-lg font-semibold text-gray-700">{{ totalDeposits }}</p>
+                            <p class="text-sm font-medium text-gray-500">Today Deposits</p>
+                            <p class="text-lg font-semibold text-gray-700">{{ todayDeposits }}</p>
                         </div>
                     </div>
                 </div>
@@ -33,8 +33,8 @@
                             </svg>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-500">Total Withdrawals</p>
-                            <p class="text-lg font-semibold text-gray-700">{{ totalWithdrawals }}</p>
+                            <p class="text-sm font-medium text-gray-500">Today Withdrawals</p>
+                            <p class="text-lg font-semibold text-gray-700">{{ todayWithdrawals }}</p>
                         </div>
                     </div>
                 </div>
@@ -51,8 +51,8 @@
                             </svg>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-500">Total Items</p>
-                            <p class="text-lg font-semibold text-gray-700">{{ items.length }}</p>
+                            <p class="text-sm font-medium text-gray-500">Total Expenses</p>
+                            <p class="text-lg font-semibold text-gray-700">{{ totalWithdrawals }}</p>
                         </div>
                     </div>
                 </div>
@@ -68,8 +68,8 @@
                             </svg>
                         </div>
                         <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-500">Recent Updates</p>
-                            <p class="text-lg font-semibold text-gray-700">{{ recentItems }}</p>
+                            <p class="text-sm font-medium text-gray-500">current Balance</p>
+                            <p class="text-lg font-semibold text-gray-700">{{ todayDeposits - todayWithdrawals }}</p>
                         </div>
                     </div>
                 </div>
@@ -185,7 +185,8 @@ import 'vue3-easy-data-table/dist/style.css';
 
 // Props
 const props = defineProps({
-    items: Array
+    items: Array,
+
 });
 
 // State
@@ -213,13 +214,31 @@ const formattedItems = computed(() => {
     }));
 });
 
+// Sum function
+function sum(items, conditionCallback) {
+    return items.filter(conditionCallback).map(item => Number(item.amount)).reduce((a, b) => a + b, 0);
+}
+
 // Computed values for summary cards
-const totalDeposits = computed(() => {
-    return props.items.filter(item => item.type === 'Deposit').length;
+const todayDeposits = computed(() => {
+    return sum(props.items, item => item.type === 'Deposit');
+});
+
+const todayWithdrawals = computed(() => {
+    const today = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+
+    // Filter items where the date matches today's date and type is 'Withdrawal'
+    const filteredItems = props.items.filter(item => {
+        const itemDate = item.date.split(' ')[0]; // Extract the date part (YYYY-MM-DD)
+        return itemDate === today && item.type === 'Withdrawal';
+    });
+
+    // Calculate the sum of the filtered withdrawals
+    return sum(filteredItems, item => item.type === 'Withdrawal');
 });
 
 const totalWithdrawals = computed(() => {
-    return props.items.filter(item => item.type === 'Withdrawal').length;
+    return sum(props.items, item => item.type === 'Withdrawal');
 });
 
 const recentItems = computed(() => {
