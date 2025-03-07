@@ -17,7 +17,8 @@
                         </div>
                         <div class="ml-4">
                             <p class="text-sm font-medium text-gray-500">Today Deposits</p>
-                            <p class="text-lg font-semibold text-gray-700">{{ todayDeposits }}</p>
+                            <p class="text-lg font-semibold text-gray-700">{{ todayDeposits + (yesterdayDeposits -
+                                yesterdayWithdrawals) }}</p>
                         </div>
                     </div>
                 </div>
@@ -176,7 +177,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { Link, useForm, Head } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
@@ -221,7 +222,16 @@ function sum(items, conditionCallback) {
 
 // Computed values for summary cards
 const todayDeposits = computed(() => {
-    return sum(props.items, item => item.type === 'Deposit');
+    const today = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+
+    // Filter items where the date matches today's date and type is 'Withdrawal'
+    const filteredItems = props.items.filter(item => {
+        const itemDate = item.date.split(' ')[0]; // Extract the date part (YYYY-MM-DD)
+        return itemDate === today && item.type === 'Deposit';
+    });
+
+    // Calculate the sum of the filtered withdrawals
+    return sum(filteredItems, item => item.type === 'Deposit');
 });
 
 const todayWithdrawals = computed(() => {
@@ -237,19 +247,34 @@ const todayWithdrawals = computed(() => {
     return sum(filteredItems, item => item.type === 'Withdrawal');
 });
 
+const yesterdayDeposits = computed(() => {
+    const today = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const filteredItems = props.items.filter(item => {
+        const itemDate = item.date.split(' ')[0]; // Extract the date part (YYYY-MM-DD)
+        return itemDate === yesterday.toISOString().slice(0, 10) && item.type === 'Deposit';
+    });
+
+    return sum(filteredItems, item => item.type === 'Deposit');
+})
+
+const yesterdayWithdrawals = computed(() => {
+    const today = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const filteredItems = props.items.filter(item => {
+        const itemDate = item.date.split(' ')[0]; // Extract the date part (YYYY-MM-DD)
+        return itemDate === yesterday.toISOString().slice(0, 10) && item.type === 'Withdrawal';
+    });
+
+    return sum(filteredItems, item => item.type === 'Withdrawal');
+})
+
 const totalWithdrawals = computed(() => {
     return sum(props.items, item => item.type === 'Withdrawal');
-});
-
-const recentItems = computed(() => {
-    // Count items created in the last 7 days
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-    return props.items.filter(item => {
-        const itemDate = new Date(item.created_at);
-        return itemDate > oneWeekAgo;
-    }).length;
 });
 
 // Row class based on item type
