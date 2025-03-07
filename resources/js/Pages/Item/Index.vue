@@ -1,6 +1,6 @@
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Expense" />
     <AdminLayout>
         <div class="mb-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -187,7 +187,6 @@ import 'vue3-easy-data-table/dist/style.css';
 // Props
 const props = defineProps({
     items: Array,
-
 });
 
 // State
@@ -224,36 +223,32 @@ function sum(items, conditionCallback) {
 const todayDeposits = computed(() => {
     const today = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
 
-    // Filter items where the date matches today's date and type is 'Withdrawal'
     const filteredItems = props.items.filter(item => {
         const itemDate = item.date.split(' ')[0]; // Extract the date part (YYYY-MM-DD)
         return itemDate === today && item.type === 'Deposit';
     });
 
-    // Calculate the sum of the filtered withdrawals
     return sum(filteredItems, item => item.type === 'Deposit');
 });
 
 const todayWithdrawals = computed(() => {
-    const today = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().slice(0, 10);
 
-    // Filter items where the date matches today's date and type is 'Withdrawal'
     const filteredItems = props.items.filter(item => {
-        const itemDate = item.date.split(' ')[0]; // Extract the date part (YYYY-MM-DD)
+        const itemDate = item.date.split(' ')[0];
         return itemDate === today && item.type === 'Withdrawal';
     });
 
-    // Calculate the sum of the filtered withdrawals
     return sum(filteredItems, item => item.type === 'Withdrawal');
 });
 
 const yesterdayDeposits = computed(() => {
-    const today = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().slice(0, 10);
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
 
     const filteredItems = props.items.filter(item => {
-        const itemDate = item.date.split(' ')[0]; // Extract the date part (YYYY-MM-DD)
+        const itemDate = item.date.split(' ')[0];
         return itemDate === yesterday.toISOString().slice(0, 10) && item.type === 'Deposit';
     });
 
@@ -261,12 +256,12 @@ const yesterdayDeposits = computed(() => {
 })
 
 const yesterdayWithdrawals = computed(() => {
-    const today = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+    const today = new Date().toISOString().slice(0, 10);
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
 
     const filteredItems = props.items.filter(item => {
-        const itemDate = item.date.split(' ')[0]; // Extract the date part (YYYY-MM-DD)
+        const itemDate = item.date.split(' ')[0];
         return itemDate === yesterday.toISOString().slice(0, 10) && item.type === 'Withdrawal';
     });
 

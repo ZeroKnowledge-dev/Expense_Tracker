@@ -15,6 +15,15 @@
 
                 <!-- Navigation -->
                 <nav class="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
+                    <Link :href="route('dashboard')"
+                        :class="`${route().current('dashboard') ? 'bg-[#0E86D4] text-white' : 'text-white hover:bg-[#0E86D4] hover:bg-opacity-75'} flex items-center px-4 py-2 rounded-lg transition-colors`">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                    </svg>
+                    <span>Dashboard</span>
+                    </Link>
                     <Link :href="route('items.index')"
                         :class="`${route().current('items.index') ? 'bg-[#0E86D4] text-white' : 'text-white hover:bg-[#0E86D4] hover:bg-opacity-75'} flex items-center px-4 py-2 rounded-lg transition-colors`">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -36,6 +45,15 @@
                     </Link>
 
                     <!-- Add more navigation items as needed -->
+                    <Link :href="route('report')"
+                        :class="`${route().current('report') ? 'bg-[#0E86D4] text-white' : 'text-white hover:bg-[#0E86D4] hover:bg-opacity-75'} flex items-center px-4 py-2 rounded-lg transition-colors`">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    <span>Report</span>
+                    </Link>
 
                 </nav>
 
