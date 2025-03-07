@@ -158,7 +158,7 @@
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
                 <h1 class="text-lg font-semibold text-gray-900 mb-2 sm:mb-0">Your Public URL is :
                     <span>
-                        <a :href="`${appURL}/preview/${user.id}`">{{ `${appURL}/preview/${user.id}` }}</a>
+                        <a :href="`/preview/${user.id}`">{{ `${appURL}/preview/${user.id}` }}</a>
                     </span>
                 </h1>
             </div>
