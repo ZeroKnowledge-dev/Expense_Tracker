@@ -77,19 +77,6 @@
     </div>
 
     <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-            <h1 class="text-lg font-semibold text-gray-900 mb-2 sm:mb-0">Expense Tracker</h1>
-            <Link :href="route('items.create')"
-                class="flex items-center px-4 py-2 bg-[#0E86D4] text-white rounded-md hover:bg-[#055C9D] transition">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6">
-                </path>
-            </svg>
-            Add New Item
-            </Link>
-        </div>
-
         <!-- Vue3 Easy Data Table -->
         <div v-if="items.length > 0">
             <VueEasyDataTable :headers="headers" :items="formattedItems" buttons-pagination :theme-color="'#0E86D4'"
@@ -113,38 +100,6 @@
                 <template #item-date="{ date }">
                     <div>{{ date }}</div>
                 </template>
-
-                <!-- Custom actions column -->
-                <template #item-actions="{ id }">
-                    <div class="flex items-center space-x-2">
-                        <Link :href="route('items.show', id)" class="text-[#055C9D] hover:text-[#003060]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                            </path>
-                        </svg>
-                        </Link>
-                        <Link :href="route('items.edit', id)" class="text-[#0E86D4] hover:text-[#055C9D]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                            </path>
-                        </svg>
-                        </Link>
-                        <button @click="confirmDelete(id)" class="text-red-600 hover:text-red-900">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                </path>
-                            </svg>
-                        </button>
-                    </div>
-                </template>
             </VueEasyDataTable>
         </div>
 
@@ -152,26 +107,6 @@
             <p class="text-gray-500">No items found. Click "Add New Item" to create one.</p>
         </div>
     </div>
-
-    <!-- Delete Confirmation Modal -->
-    <Modal :show="showDeleteModal" @close="closeModal">
-        <div class="p-6">
-            <h2 class="text-lg font-medium text-gray-900">Delete Item</h2>
-            <p class="mt-1 text-sm text-gray-600">Are you sure you want to delete this item? This action cannot be
-                undone.
-            </p>
-            <div class="mt-6 flex justify-end space-x-3">
-                <button type="button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                    @click="closeModal">
-                    Cancel
-                </button>
-                <button type="button" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-                    @click="deleteItem">
-                    Delete
-                </button>
-            </div>
-        </div>
-    </Modal>
 </template>
 
 <script setup>
@@ -196,7 +131,6 @@ const headers = [
     { text: "Amount", value: "amount", sortable: true },
     { text: "Date", value: "date", sortable: true },
     { text: "Type", value: "type", sortable: true },
-    { text: "Actions", value: "actions", width: "120px" }
 ];
 
 // Format items for the data table
