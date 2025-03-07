@@ -154,21 +154,11 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6 mt-6">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-                <h1 class="text-lg font-semibold text-gray-900 mb-2 sm:mb-0">Your Public URL is :
-                    <span>
-                        <a :href="`${appURL}/preview/${user.id}`">{{ `${appURL}/preview/${user.id}` }}</a>
-                    </span>
-                </h1>
-            </div>
-        </div>
         <!-- Delete Confirmation Modal -->
         <Modal :show="showDeleteModal" @close="closeModal">
             <div class="p-6">
                 <h2 class="text-lg font-medium text-gray-900">Delete Item</h2>
-                <p class="mt-1 text-sm text-gray-600">Are you sure you want to delete this item? This action cannot
-                    be
+                <p class="mt-1 text-sm text-gray-600">Are you sure you want to delete this item? This action cannot be
                     undone.
                 </p>
                 <div class="mt-6 flex justify-end space-x-3">
@@ -196,9 +186,7 @@ import 'vue3-easy-data-table/dist/style.css';
 
 // Props
 const props = defineProps({
-    user: Object,
     items: Array,
-    appURL: String
 });
 
 // State

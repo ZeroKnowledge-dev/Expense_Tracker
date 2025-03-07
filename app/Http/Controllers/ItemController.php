@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,9 @@ class ItemController extends Controller {
 	 */
 	public function index() {
 		return Inertia::render('Item/Index', [
-			'items' => Item::where('user_id', auth()->user()->id)->get(),
+			'user'   => User::findOrFail(auth()->user()->id),
+			'items'  => Item::where('user_id', auth()->user()->id)->get(),
+			'appURL' => env('APP_URL'),
 		]);
 	}
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PreviewController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -32,3 +33,5 @@ Route::middleware([
 	// Report API
 	Route::get("/sales-report/{FromDate}/{ToDate}", [ReportController::class, 'SalesReport'])->name('sales-report');
 });
+
+Route::get('/preview/{id}', [PreviewController::class, 'index'])->name('preview');
